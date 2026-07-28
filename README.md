@@ -1,8 +1,8 @@
-# vinext-starter
+# Catálogo UOMO Moda Masculina
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Catálogo digital da UOMO em Lavras, com seleção de moda masculina e atendimento pelo WhatsApp.
+
+Projeto publicado a partir da versão original do ChatGPT Sites.
 
 ## Prerequisites
 
