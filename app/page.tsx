@@ -3,7 +3,7 @@
 import { ChangeEvent, useMemo, useRef, useState } from "react";
 
 type ColorOption = { name: string; image: string };
-type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string; colors?: ColorOption[] };
+type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string; colors?: ColorOption[]; brand?: string };
 type CartItem = { product: Product; size: string; quantity: number };
 
 const shirtColors: ColorOption[] = [
@@ -20,7 +20,12 @@ const shirtColors: ColorOption[] = [
 ];
 
 const products: Product[] = [
-  { name: "Camiseta UOMO", category: "Camisetas", image: shirtColors[0].image, colors: shirtColors, note: "Malha premium com toque macio — escolha entre 10 cores", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camisetas UOMO Promoção", category: "Camisetas", image: shirtColors[0].image, colors: shirtColors, brand: "UOMO", note: "Malha premium com toque macio — escolha entre 10 cores", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camisetas UOMO", category: "Camisetas", brand: "UOMO", note: "Coleção UOMO — modelos fora da promoção" },
+  { name: "Camisetas Crocker", category: "Camisetas", brand: "CROCKER", note: "Modelos masculinos Crocker" },
+  { name: "Camisetas Dudalina", category: "Camisetas", brand: "DUDALINA", note: "Camisetas masculinas Dudalina" },
+  { name: "Camisetas Convicto", category: "Camisetas", brand: "CONVICTO", note: "Camisetas masculinas Convicto" },
+  { name: "Camisetas Aramis", category: "Camisetas", brand: "ARAMIS", note: "Camisetas masculinas Aramis" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
@@ -123,7 +128,7 @@ export default function Home() {
           }
         }}
       >
-        {image ? <img src={image} alt={product.name} /> : <div className="image-placeholder"><span>UOMO</span><p>Espaço para foto</p></div>}
+        {image ? <img src={image} alt={product.name} /> : <div className="image-placeholder"><span>{product.brand || "UOMO"}</span><p>Espaço para foto</p></div>}
         <span className="category-label">{product.category}</span>
         <label className="photo-upload" onClick={(event) => event.stopPropagation()}>+ Adicionar foto<input type="file" accept="image/*" onChange={(event) => addPhoto(product.name, event)} /></label>
       </div>
