@@ -76,9 +76,11 @@ export default function Home() {
 
   const selectColor = (color: string) => {
     setSelectedColor(color);
-    if (window.matchMedia("(max-width: 560px)").matches) {
-      requestAnimationFrame(() => productGalleryRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
-    }
+    requestAnimationFrame(() => {
+      const gallery = productGalleryRef.current;
+      gallery?.closest(".product-modal")?.scrollTo({ top: 0, behavior: "smooth" });
+      gallery?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   };
 
   const openProduct = (product: Product) => {
