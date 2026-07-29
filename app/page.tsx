@@ -21,10 +21,9 @@ const shirtColors: ColorOption[] = [
 
 const products: Product[] = [
   { name: "Camisetas UOMO Promoção", category: "Camisetas", image: shirtColors[0].image, colors: shirtColors, brand: "UOMO", note: "Malha premium com toque macio — escolha entre 10 cores", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camisetas UOMO", category: "Camisetas", brand: "UOMO", note: "Coleção UOMO — modelos fora da promoção" },
-  { name: "Camisetas Crocker", category: "Camisetas", brand: "CROCKER", note: "Modelos masculinos Crocker" },
-  { name: "Camisetas Dudalina", category: "Camisetas", brand: "DUDALINA", note: "Camisetas masculinas Dudalina" },
-  { name: "Camisetas Convicto", category: "Camisetas", brand: "CONVICTO", note: "Camisetas masculinas Convicto" },
+  { name: "Camiseta Premium", category: "Camisetas", brand: "PREMIUM", note: "Malha premium com toque macio e acabamento superior" },
+  { name: "Camiseta Pima", category: "Camisetas", brand: "PIMA", note: "Algodão Pima com toque leve e macio" },
+  { name: "Camiseta Texturizada", category: "Camisetas", brand: "TEXTURIZADA", note: "Textura elegante e acabamento confortável" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
