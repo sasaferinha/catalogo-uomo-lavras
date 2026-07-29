@@ -14,9 +14,15 @@ export default function Template({ children }: { children: ReactNode }) {
           clip: auto !important;
           overflow: visible !important;
           object-fit: cover !important;
-          object-position: center !important;
+          object-position: 4% center !important;
           filter: none !important;
           z-index: 0 !important;
+        }
+        @media (max-width: 900px) {
+          .hero .hero-accessibility-image { object-position: 64% center !important; }
+        }
+        @media (max-width: 560px) {
+          .hero .hero-accessibility-image { object-position: 72% top !important; }
         }
       `}</style>
       {children}
