@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
 
 type ColorOption = { name: string; image: string };
 type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string; colors?: ColorOption[] };
@@ -44,6 +44,7 @@ export default function Home() {
   const [customImages, setCustomImages] = useState<Record<string, string>>({});
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedColor, setSelectedColor] = useState("");
+  const productGalleryRef = useRef<HTMLDivElement>(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -71,6 +72,13 @@ export default function Home() {
     if (product.category === "Calçados") return ["38", "39", "40", "41", "42", "43"];
     if (product.category === "Óculos") return ["Tamanho único"];
     return ["P", "M", "G", "GG"];
+  };
+
+  const selectColor = (color: string) => {
+    setSelectedColor(color);
+    if (window.matchMedia("(max-width: 560px)").matches) {
+      requestAnimationFrame(() => productGalleryRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
   };
 
   const openProduct = (product: Product) => {
@@ -176,7 +184,7 @@ export default function Home() {
       {selectedProduct && <div className="product-modal-backdrop" role="presentation">
         <section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
           <button className="modal-close" type="button" onClick={() => setSelectedProduct(null)} aria-label="Fechar detalhes">×</button>
-          <div className="modal-gallery">
+          <div className="modal-gallery" ref={productGalleryRef}>
             {(customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image) ? <img src={customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image} alt={selectedProduct.name + (selectedColor ? " na cor " + selectedColor : "")} /> : <div className="modal-placeholder"><span>UOMO</span><p>Imagem do produto</p></div>}
           </div>
           <div className="modal-details">
@@ -184,7 +192,7 @@ export default function Home() {
             <h2 id="product-detail-title">{selectedProduct.name}</h2>
             <p className="modal-note">{selectedProduct.note}</p>
             <div className="modal-price"><strong>{selectedProduct.price || "Valor sob consulta"}</strong><span>{selectedProduct.promo || "Consulte disponibilidade com nossa equipe"}</span></div>
-            {selectedProduct.colors && <div className="color-picker"><div className="color-heading"><strong>Escolha a cor</strong><span>{selectedColor}</span></div><div className="color-options">{selectedProduct.colors.map((color) => <button key={color.name} type="button" className={selectedColor === color.name ? "selected" : ""} onClick={() => setSelectedColor(color.name)} aria-label={"Selecionar cor " + color.name}><img src={color.image} alt="" /><span>{color.name}</span></button>)}</div></div>}
+            {selectedProduct.colors && <div className="color-picker"><div className="color-heading"><strong>Escolha a cor</strong><span>{selectedColor}</span></div><div className="color-options">{selectedProduct.colors.map((color) => <button key={color.name} type="button" className={selectedColor === color.name ? "selected" : ""} onClick={() => selectColor(color.name)} aria-label={"Selecionar cor " + color.name}><img src={color.image} alt="" /><span>{color.name}</span></button>)}</div></div>}
             <div className="size-heading"><strong>Selecione o tamanho</strong><span>Guia de medidas UOMO</span></div>
             <div className="size-options">{productSizes(selectedProduct).map((size) => <button key={size} type="button" className={selectedSize === size ? "selected" : ""} onClick={() => setSelectedSize(size)}>{size}</button>)}</div>
             <div className="quantity-row">
