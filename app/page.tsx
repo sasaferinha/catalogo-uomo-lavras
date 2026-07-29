@@ -2,20 +2,25 @@
 
 import { ChangeEvent, useMemo, useState } from "react";
 
-type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string };
+type ColorOption = { name: string; image: string };
+type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string; colors?: ColorOption[] };
 type CartItem = { product: Product; size: string; quantity: number };
 
+const shirtColors: ColorOption[] = [
+  { name: "Caramelo", image: "/uomo/camiseta-01.webp" },
+  { name: "Marrom", image: "/uomo/camiseta-02.webp" },
+  { name: "Cinza Texturizada", image: "/uomo/camiseta-03.webp" },
+  { name: "Verde", image: "/uomo/camiseta-04.webp" },
+  { name: "Cinza Mescla", image: "/uomo/camiseta-05.webp" },
+  { name: "Azul Marinho", image: "/uomo/camiseta-06.webp" },
+  { name: "Grafite", image: "/uomo/camiseta-07.webp" },
+  { name: "Azul Royal", image: "/uomo/camiseta-08.webp" },
+  { name: "Cinza Claro", image: "/uomo/camiseta-09.webp" },
+  { name: "Preta", image: "/uomo/camiseta-10.webp" },
+];
+
 const products: Product[] = [
-  { name: "Camiseta Caramelo", category: "Camisetas", image: "/uomo/camiseta-01.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Marrom", category: "Camisetas", image: "/uomo/camiseta-02.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Cinza Texturizada", category: "Camisetas", image: "/uomo/camiseta-03.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Verde", category: "Camisetas", image: "/uomo/camiseta-04.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Cinza Mescla", category: "Camisetas", image: "/uomo/camiseta-05.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Azul Marinho", category: "Camisetas", image: "/uomo/camiseta-06.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Grafite", category: "Camisetas", image: "/uomo/camiseta-07.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Azul Royal", category: "Camisetas", image: "/uomo/camiseta-08.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Cinza Claro", category: "Camisetas", image: "/uomo/camiseta-09.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
-  { name: "Camiseta Preta", category: "Camisetas", image: "/uomo/camiseta-10.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta UOMO", category: "Camisetas", image: shirtColors[0].image, colors: shirtColors, note: "Malha premium com toque macio — escolha entre 10 cores", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
@@ -38,6 +43,7 @@ export default function Home() {
   const [categoryMenuOpen, setCategoryMenuOpen] = useState(false);
   const [customImages, setCustomImages] = useState<Record<string, string>>({});
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -65,18 +71,21 @@ export default function Home() {
 
   const openProduct = (product: Product) => {
     setSelectedProduct(product);
+    setSelectedColor(product.colors?.[0]?.name || "");
     setSelectedSize(product.category === "Óculos" ? "Tamanho único" : "");
     setQuantity(1);
   };
 
   const addToCart = () => {
     if (!selectedProduct || !selectedSize) return;
+    const chosenColor = selectedProduct.colors?.find((color) => color.name === selectedColor);
+    const cartProduct = chosenColor ? { ...selectedProduct, name: selectedProduct.name + " - " + chosenColor.name, image: chosenColor.image, colors: undefined } : selectedProduct;
     setCart((current) => {
-      const existingIndex = current.findIndex((item) => item.product.name === selectedProduct.name && item.size === selectedSize);
+      const existingIndex = current.findIndex((item) => item.product.name === cartProduct.name && item.size === selectedSize);
       if (existingIndex >= 0) {
         return current.map((item, index) => index === existingIndex ? { ...item, quantity: Math.min(10, item.quantity + quantity) } : item);
       }
-      return [...current, { product: selectedProduct, size: selectedSize, quantity }];
+      return [...current, { product: cartProduct, size: selectedSize, quantity }];
     });
     setSelectedProduct(null);
     setCartOpen(true);
@@ -104,7 +113,7 @@ export default function Home() {
         <span className="category-label">{product.category}</span>
         <label className="photo-upload" onClick={(event) => event.stopPropagation()}>+ Adicionar foto<input type="file" accept="image/*" onChange={(event) => addPhoto(product.name, event)} /></label>
       </div>
-      <div className="product-info"><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small>{product.promo && <span className="product-promo">{product.promo}</span>}<div><strong>{product.price || "Valor sob consulta"}</strong><button onClick={() => openProduct(product)}>Falar com vendedor</button></div></div>
+      <div className="product-info"><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small>{product.colors && <span className="color-count">10 cores disponíveis</span>}{product.promo && <span className="product-promo">{product.promo}</span>}<div><strong>{product.price || "Valor sob consulta"}</strong><button onClick={() => openProduct(product)}>Escolher cor</button></div></div>
     </article>;
   };
 
@@ -164,13 +173,14 @@ export default function Home() {
         <section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
           <button className="modal-close" type="button" onClick={() => setSelectedProduct(null)} aria-label="Fechar detalhes">×</button>
           <div className="modal-gallery">
-            {(customImages[selectedProduct.name] || selectedProduct.image) ? <img src={customImages[selectedProduct.name] || selectedProduct.image} alt={selectedProduct.name} /> : <div className="modal-placeholder"><span>UOMO</span><p>Imagem do produto</p></div>}
+            {(customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image) ? <img src={customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image} alt={selectedProduct.name + (selectedColor ? " na cor " + selectedColor : "")} /> : <div className="modal-placeholder"><span>UOMO</span><p>Imagem do produto</p></div>}
           </div>
           <div className="modal-details">
             <p className="modal-category">{selectedProduct.category}</p>
             <h2 id="product-detail-title">{selectedProduct.name}</h2>
             <p className="modal-note">{selectedProduct.note}</p>
             <div className="modal-price"><strong>{selectedProduct.price || "Valor sob consulta"}</strong><span>{selectedProduct.promo || "Consulte disponibilidade com nossa equipe"}</span></div>
+            {selectedProduct.colors && <div className="color-picker"><div className="color-heading"><strong>Escolha a cor</strong><span>{selectedColor}</span></div><div className="color-options">{selectedProduct.colors.map((color) => <button key={color.name} type="button" className={selectedColor === color.name ? "selected" : ""} onClick={() => setSelectedColor(color.name)} aria-label={"Selecionar cor " + color.name}><img src={color.image} alt="" /><span>{color.name}</span></button>)}</div></div>}
             <div className="size-heading"><strong>Selecione o tamanho</strong><span>Guia de medidas UOMO</span></div>
             <div className="size-options">{productSizes(selectedProduct).map((size) => <button key={size} type="button" className={selectedSize === size ? "selected" : ""} onClick={() => setSelectedSize(size)}>{size}</button>)}</div>
             <div className="quantity-row">
