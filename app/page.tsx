@@ -25,7 +25,6 @@ const products: Product[] = [
   { name: "Camisetas Crocker", category: "Camisetas", brand: "CROCKER", note: "Modelos masculinos Crocker" },
   { name: "Camisetas Dudalina", category: "Camisetas", brand: "DUDALINA", note: "Camisetas masculinas Dudalina" },
   { name: "Camisetas Convicto", category: "Camisetas", brand: "CONVICTO", note: "Camisetas masculinas Convicto" },
-  { name: "Camisetas Aramis", category: "Camisetas", brand: "ARAMIS", note: "Camisetas masculinas Aramis" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
