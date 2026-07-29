@@ -31,6 +31,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }
           @media (max-width: 560px) {
             .hero .hero-accessibility-image { object-position: 72% top !important; }
+            .product-modal .modal-gallery {
+              height: clamp(340px, 52vh, 500px) !important;
+              min-height: 340px !important;
+            }
+            .product-modal .modal-gallery > img {
+              width: 100% !important;
+              height: 100% !important;
+              object-fit: contain !important;
+              object-position: center !important;
+            }
           }
         `}</style>
         {children}
