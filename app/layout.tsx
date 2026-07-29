@@ -26,6 +26,37 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             filter: none !important;
             z-index: 0 !important;
           }
+          .product-card {
+            background: #121212 !important;
+            color: #ffffff !important;
+            border: 1px solid #2d2d2d !important;
+            border-bottom: 3px solid #c7a45a !important;
+          }
+          .product-card .product-info {
+            background: #121212 !important;
+            color: #ffffff !important;
+          }
+          .product-card .product-info > p {
+            color: #e0c784 !important;
+          }
+          .product-card .product-info small {
+            color: #bdbdbd !important;
+          }
+          .product-card .product-info > div {
+            border-top-color: #333333 !important;
+          }
+          .product-card .product-info strong {
+            color: #ffffff !important;
+          }
+          .product-card .product-info button {
+            color: #ffffff !important;
+            border-bottom-color: #c7a45a !important;
+          }
+          .product-card .photo-upload {
+            background: #121212 !important;
+            color: #e0c784 !important;
+            border-left-color: #c7a45a !important;
+          }
           @media (max-width: 900px) {
             .hero .hero-accessibility-image { object-position: 64% center !important; }
           }
