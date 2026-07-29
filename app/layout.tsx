@@ -31,15 +31,79 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }
           @media (max-width: 560px) {
             .hero .hero-accessibility-image { object-position: 72% top !important; }
+            .product-modal {
+              background: #080808 !important;
+              color: #ffffff !important;
+              border-color: #c7a45a !important;
+            }
             .product-modal .modal-gallery {
               height: clamp(340px, 52vh, 500px) !important;
               min-height: 340px !important;
+              background: #121212 !important;
+              border-bottom: 1px solid #c7a45a !important;
             }
             .product-modal .modal-gallery > img {
               width: 100% !important;
               height: 100% !important;
               object-fit: contain !important;
               object-position: center !important;
+            }
+            .product-modal .modal-details {
+              background: #080808 !important;
+            }
+            .product-modal .modal-close {
+              background: #121212 !important;
+              color: #e0c784 !important;
+              border-color: #c7a45a !important;
+            }
+            .product-modal .modal-category,
+            .product-modal .color-heading span,
+            .product-modal .size-heading span {
+              color: #e0c784 !important;
+            }
+            .product-modal .modal-note,
+            .product-modal .modal-price span,
+            .product-modal .quantity-row span,
+            .product-modal .product-benefits {
+              color: #bdbdbd !important;
+            }
+            .product-modal .modal-price {
+              border-color: #333333 !important;
+            }
+            .product-modal .color-options button,
+            .product-modal .size-options button {
+              background: #171717 !important;
+              color: #ffffff !important;
+              border-color: #3a3a3a !important;
+            }
+            .product-modal .color-options button.selected,
+            .product-modal .size-options button.selected {
+              background: #c7a45a !important;
+              color: #080808 !important;
+              border-color: #e0c784 !important;
+            }
+            .product-modal .quantity-control {
+              border-color: #3a3a3a !important;
+            }
+            .product-modal .quantity-control button,
+            .product-modal .quantity-control output {
+              background: #171717 !important;
+              color: #ffffff !important;
+              border-color: #3a3a3a !important;
+            }
+            .product-modal .add-to-cart {
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              background: #c7a45a !important;
+              color: #080808 !important;
+              border-bottom-color: #e0c784 !important;
+            }
+            .product-modal .add-to-cart.disabled {
+              opacity: .45 !important;
+            }
+            .product-modal .size-warning {
+              color: #e0c784 !important;
             }
           }
         `}</style>
