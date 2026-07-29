@@ -2,11 +2,20 @@
 
 import { ChangeEvent, useMemo, useState } from "react";
 
-type Product = { name: string; category: string; image?: string; note: string };
+type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string };
 type CartItem = { product: Product; size: string; quantity: number };
 
 const products: Product[] = [
-  { name: "Camiseta UOMO", category: "Camisetas", note: "Casual com acabamento premium" },
+  { name: "Camiseta Caramelo", category: "Camisetas", image: "/uomo/camiseta-01.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Marrom", category: "Camisetas", image: "/uomo/camiseta-02.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Cinza Texturizada", category: "Camisetas", image: "/uomo/camiseta-03.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Verde", category: "Camisetas", image: "/uomo/camiseta-04.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Cinza Mescla", category: "Camisetas", image: "/uomo/camiseta-05.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Azul Marinho", category: "Camisetas", image: "/uomo/camiseta-06.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Grafite", category: "Camisetas", image: "/uomo/camiseta-07.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Azul Royal", category: "Camisetas", image: "/uomo/camiseta-08.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Cinza Claro", category: "Camisetas", image: "/uomo/camiseta-09.webp", note: "Textura discreta e acabamento confortável", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
+  { name: "Camiseta Preta", category: "Camisetas", image: "/uomo/camiseta-10.webp", note: "Malha premium com toque macio", price: "R$ 65,00", promo: "3 camisetas por R$ 119,90" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
@@ -95,7 +104,7 @@ export default function Home() {
         <span className="category-label">{product.category}</span>
         <label className="photo-upload" onClick={(event) => event.stopPropagation()}>+ Adicionar foto<input type="file" accept="image/*" onChange={(event) => addPhoto(product.name, event)} /></label>
       </div>
-      <div className="product-info"><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small><div><strong>Valor sob consulta</strong><button onClick={() => openProduct(product)}>Ver produto</button></div></div>
+      <div className="product-info"><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small>{product.promo && <span className="product-promo">{product.promo}</span>}<div><strong>{product.price || "Valor sob consulta"}</strong><button onClick={() => openProduct(product)}>Falar com vendedor</button></div></div>
     </article>;
   };
 
@@ -104,7 +113,7 @@ export default function Home() {
       <div className="benefit-bar"><span>Envios para todo o Brasil</span><span>Consultoria especializada</span><span>Ajustes personalizados</span></div>
       <header className="header">
         <button className="menu-button" aria-label="Abrir menu" onClick={() => setMenuOpen(!menuOpen)}>☰</button>
-        <a href="#inicio" className="brand" aria-label="UOMO início"><span>UOMO</span><img src="https://catalogo-uomo-lavras.sebasgoleiro0320.chatgpt.site/uomo/logo.png" alt="" /></a>
+        <a href="#inicio" className="brand" aria-label="UOMO início"><span>UOMO</span><img src="/uomo/logo.png" alt="" /></a>
         <nav className={menuOpen ? "nav open" : "nav"}>
           <a href="#catalogo" onClick={() => setMenuOpen(false)}>Catálogo</a>
           <a href="#loja" onClick={() => setMenuOpen(false)}>Loja</a>
@@ -122,7 +131,7 @@ export default function Home() {
       </nav>
 
       <section className="hero" id="inicio">
-        <img className="hero-accessibility-image" src="https://catalogo-uomo-lavras.sebasgoleiro0320.chatgpt.site/uomo/hero-cinza.webp" alt="Homem usando terno cinza em campanha de moda masculina da UOMO" loading="eager" fetchPriority="high" />
+        <img className="hero-accessibility-image" src="/uomo/hero-cinza.webp" alt="Homem usando terno cinza em campanha de moda masculina da UOMO" loading="eager" fetchPriority="high" />
         <a className="hero-banner-link" href="#catalogo" aria-label="Explorar coleção de moda masculina UOMO" />
         <div className="hero-mobile-content"><p className="eyebrow">Moda masculina • Lavras, MG</p><h1>Vista sua<br /><em>melhor versão.</em></h1><p>Do casual à alfaiataria. Uma curadoria completa para homens que valorizam presença.</p><a href="#catalogo" className="primary">Explorar coleção <span>→</span></a></div>
       </section>
@@ -132,6 +141,11 @@ export default function Home() {
         <div className="search-wrap"><span>⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="O que você procura hoje?" aria-label="Buscar no catálogo" /></div>
         <div className="categories">{categories.map((category) => <button key={category} className={active === category ? "active" : ""} onClick={() => setActive(category)}>{category}</button>)}</div>
         <div className="photo-notice"><strong>Área de fotos</strong><span>Use “Adicionar foto” para visualizar suas próprias imagens. A foto fica apenas neste aparelho durante a sessão.</span></div>
+        {(active === "Todos" || active === "Camisetas") && !search.trim() && <section className="shirt-promo" aria-label="Promoção de camisetas">
+          <div className="shirt-promo-image"><img src="/uomo/promocao-3-camisetas.webp" alt="Três camisetas UOMO nas cores laranja, cinza e verde" /></div>
+          <div className="shirt-promo-copy"><p>Oferta especial UOMO</p><h3>Monte seu trio</h3><span>Escolha três camisetas, cores e tamanhos do seu jeito.</span><div className="shirt-promo-price"><small>3 camisetas por</small><strong>R$ 119,90</strong><span>ou R$ 65,00 a unidade</span></div></div>
+          {active === "Todos" && <button type="button" onClick={() => setActive("Camisetas")}>Ver camisetas →</button>}
+        </section>}
         {active === "Todos" && !search.trim() ? <div className="catalog-groups">
           {categories.slice(1).map((category) => {
             const categoryProducts = products.filter((product) => product.category === category);
@@ -156,7 +170,7 @@ export default function Home() {
             <p className="modal-category">{selectedProduct.category}</p>
             <h2 id="product-detail-title">{selectedProduct.name}</h2>
             <p className="modal-note">{selectedProduct.note}</p>
-            <div className="modal-price"><strong>Valor sob consulta</strong><span>Consulte disponibilidade com nossa equipe</span></div>
+            <div className="modal-price"><strong>{selectedProduct.price || "Valor sob consulta"}</strong><span>{selectedProduct.promo || "Consulte disponibilidade com nossa equipe"}</span></div>
             <div className="size-heading"><strong>Selecione o tamanho</strong><span>Guia de medidas UOMO</span></div>
             <div className="size-options">{productSizes(selectedProduct).map((size) => <button key={size} type="button" className={selectedSize === size ? "selected" : ""} onClick={() => setSelectedSize(size)}>{size}</button>)}</div>
             <div className="quantity-row">
