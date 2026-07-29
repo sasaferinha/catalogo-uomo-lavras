@@ -113,7 +113,7 @@ export default function Home() {
         <span className="category-label">{product.category}</span>
         <label className="photo-upload" onClick={(event) => event.stopPropagation()}>+ Adicionar foto<input type="file" accept="image/*" onChange={(event) => addPhoto(product.name, event)} /></label>
       </div>
-      <div className="product-info"><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small>{product.colors && <span className="color-count">10 cores disponíveis</span>}{product.promo && <span className="product-promo">{product.promo}</span>}<div><strong>{product.price || "Valor sob consulta"}</strong><button onClick={() => openProduct(product)}>Escolher cor</button></div></div>
+      <div className="product-info"><p>{product.category}</p><h3>{product.name}</h3><small>{product.note}</small>{product.colors && <span className="color-count">10 cores disponíveis</span>}{product.promo && <span className="product-promo">{product.promo}</span>}<div><strong>{product.price || "Valor sob consulta"}</strong><button onClick={() => openProduct(product)}>{product.colors ? "Escolher cor" : "Falar com vendedor"}</button></div></div>
     </article>;
   };
 
