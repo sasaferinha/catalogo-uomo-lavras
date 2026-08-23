@@ -24,6 +24,7 @@ const products: Product[] = [
   { name: "Camiseta Premium", category: "Camisetas", brand: "PREMIUM", note: "Malha premium com toque macio e acabamento superior" },
   { name: "Camiseta Pima", category: "Camisetas", brand: "PIMA", note: "Algodão Pima com toque leve e macio" },
   { name: "Camiseta Texturizada", category: "Camisetas", brand: "TEXTURIZADA", note: "Textura elegante e acabamento confortável" },
+  { name: "Bermuda masculina", category: "Bermudas", brand: "UOMO", note: "Conforto e estilo para os dias mais leves" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
@@ -34,7 +35,7 @@ const products: Product[] = [
   { name: "Calçado masculino", category: "Calçados", note: "Conforto, acabamento e presença" },
 ];
 
-const categories = ["Todos", "Camisetas", "Calças jeans", "Calças alfaiataria", "Ternos", "Blazers", "Óculos", "Calçados", "Casacos", "Suéteres"];
+const categories = ["Todos", "Camisetas", "Bermudas", "Calças jeans", "Calças alfaiataria", "Ternos", "Blazers", "Óculos", "Calçados", "Casacos", "Suéteres"];
 const whatsapp = "https://wa.me/5535999508805?text=Olá!%20Vim%20pelo%20catálogo%20da%20UOMO%20e%20gostaria%20de%20atendimento.";
 
 export default function Home() {
