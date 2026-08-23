@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const originalCatalog = "https://catalogo-uomo-lavras.sebasgoleiro0320.chatgpt.site";
 
+// Mantém a hero e a logo originais do catálogo UOMO.
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
