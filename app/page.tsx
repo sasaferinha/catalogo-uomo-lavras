@@ -3,7 +3,7 @@
 import { ChangeEvent, useMemo, useRef, useState } from "react";
 
 type ColorOption = { name: string; image: string };
-type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string; colors?: ColorOption[]; brand?: string };
+type Product = { name: string; category: string; image?: string; note: string; price?: string; promo?: string; colors?: ColorOption[]; brand?: string; spriteIndex?: number };
 type CartItem = { product: Product; size: string; quantity: number };
 
 const shirtColors: ColorOption[] = [
@@ -24,7 +24,16 @@ const products: Product[] = [
   { name: "Camiseta Premium", category: "Camisetas", brand: "PREMIUM", note: "Malha premium com toque macio e acabamento superior" },
   { name: "Camiseta Pima", category: "Camisetas", brand: "PIMA", note: "Algodão Pima com toque leve e macio" },
   { name: "Camiseta Texturizada", category: "Camisetas", brand: "TEXTURIZADA", note: "Textura elegante e acabamento confortável" },
-  { name: "Bermuda masculina", category: "Bermudas", brand: "UOMO", note: "Conforto e estilo para os dias mais leves" },
+  { name: "Bermuda Azul", category: "Bermudas", spriteIndex: 0, note: "Modelagem moderna com conforto para o dia a dia" },
+  { name: "Bermuda Cinza", category: "Bermudas", spriteIndex: 1, note: "Visual versátil com acabamento casual elegante" },
+  { name: "Bermuda Texturizada Areia", category: "Bermudas", spriteIndex: 2, note: "Textura leve e sofisticada para composições casuais" },
+  { name: "Bermuda Azul Texturizada", category: "Bermudas", spriteIndex: 3, note: "Acabamento texturizado com visual moderno" },
+  { name: "Bermuda Cinza Clara", category: "Bermudas", spriteIndex: 4, note: "Tonalidade neutra e modelagem confortável" },
+  { name: "Bermuda Azul Clara", category: "Bermudas", spriteIndex: 5, note: "Visual leve para produções casuais e elegantes" },
+  { name: "Bermuda Off White", category: "Bermudas", spriteIndex: 6, note: "Peça clara e versátil para combinações sofisticadas" },
+  { name: "Bermuda Cáqui", category: "Bermudas", spriteIndex: 7, note: "Cor clássica com modelagem confortável" },
+  { name: "Bermuda Cinza Chumbo", category: "Bermudas", spriteIndex: 8, note: "Tom sóbrio com acabamento casual premium" },
+  { name: "Bermuda Bege", category: "Bermudas", spriteIndex: 9, note: "Visual neutro e elegante para diversas ocasiões" },
   { name: "Calça jeans", category: "Calças jeans", note: "Modelagem moderna e confortável" },
   { name: "Calça de alfaiataria", category: "Calças alfaiataria", note: "Elegância em cada detalhe" },
   { name: "Terno clássico", category: "Ternos", note: "Ajustes personalizados" },
@@ -37,6 +46,12 @@ const products: Product[] = [
 
 const categories = ["Todos", "Camisetas", "Bermudas", "Calças jeans", "Calças alfaiataria", "Ternos", "Blazers", "Óculos", "Calçados", "Casacos", "Suéteres"];
 const whatsapp = "https://wa.me/5535999508805?text=Olá!%20Vim%20pelo%20catálogo%20da%20UOMO%20e%20gostaria%20de%20atendimento.";
+const spriteStyle = (index: number) => ({
+  backgroundImage: 'url("/uomo/bermudas-uomo.webp")',
+  backgroundSize: "1000% auto",
+  backgroundPosition: `${(index / 9) * 100}% center`,
+  backgroundRepeat: "no-repeat",
+});
 
 export default function Home() {
   const [active, setActive] = useState("Todos");
@@ -113,9 +128,10 @@ export default function Home() {
 
   const productCard = (product: Product) => {
     const image = customImages[product.name] || product.image;
+    const hasVisual = Boolean(image) || product.spriteIndex !== undefined;
     return <article className="product-card" key={product.name}>
       <div
-        className={`product-image ${image ? "" : "placeholder"}`}
+        className={`product-image ${hasVisual ? "" : "placeholder"}`}
         role="button"
         tabIndex={0}
         aria-label={`Ver informações de ${product.name}`}
@@ -127,7 +143,7 @@ export default function Home() {
           }
         }}
       >
-        {image ? <img src={image} alt={product.name} /> : <div className="image-placeholder"><span>{product.brand || "UOMO"}</span><p>Espaço para foto</p></div>}
+        {image ? <img src={image} alt={product.name} /> : product.spriteIndex !== undefined ? <div role="img" aria-label={product.name} style={{ width: "100%", height: "100%", ...spriteStyle(product.spriteIndex) }} /> : <div className="image-placeholder"><span>{product.brand || "UOMO"}</span><p>Espaço para foto</p></div>}
         <span className="category-label">{product.category}</span>
         <label className="photo-upload" onClick={(event) => event.stopPropagation()}>+ Adicionar foto<input type="file" accept="image/*" onChange={(event) => addPhoto(product.name, event)} /></label>
       </div>
@@ -191,7 +207,7 @@ export default function Home() {
         <section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
           <button className="modal-close" type="button" onClick={() => setSelectedProduct(null)} aria-label="Fechar detalhes">×</button>
           <div className="modal-gallery" ref={productGalleryRef}>
-            {(customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image) ? <img src={customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image} alt={selectedProduct.name + (selectedColor ? " na cor " + selectedColor : "")} /> : <div className="modal-placeholder"><span>UOMO</span><p>Imagem do produto</p></div>}
+            {(customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image) ? <img src={customImages[selectedProduct.name] || selectedProduct.colors?.find((color) => color.name === selectedColor)?.image || selectedProduct.image} alt={selectedProduct.name + (selectedColor ? " na cor " + selectedColor : "")} /> : selectedProduct.spriteIndex !== undefined ? <div role="img" aria-label={selectedProduct.name} style={{ width: "100%", height: "100%", minHeight: "650px", ...spriteStyle(selectedProduct.spriteIndex) }} /> : <div className="modal-placeholder"><span>UOMO</span><p>Imagem do produto</p></div>}
           </div>
           <div className="modal-details">
             <p className="modal-category">{selectedProduct.category}</p>
@@ -224,7 +240,7 @@ export default function Home() {
               {cart.map((item, index) => {
                 const image = customImages[item.product.name] || item.product.image;
                 return <article className="cart-item" key={`${item.product.name}-${item.size}`}>
-                  <div className="cart-item-image">{image ? <img src={image} alt="" /> : <span>UOMO</span>}</div>
+                  <div className="cart-item-image">{image ? <img src={image} alt="" /> : item.product.spriteIndex !== undefined ? <div role="img" aria-label={item.product.name} style={{ width: "100%", height: "100%", ...spriteStyle(item.product.spriteIndex) }} /> : <span>UOMO</span>}</div>
                   <div><p>{item.product.category}</p><h3>{item.product.name}</h3><span>Tamanho: {item.size} · Quantidade: {item.quantity}</span></div>
                   <button type="button" onClick={() => removeFromCart(index)} aria-label={`Remover ${item.product.name}`}>Remover</button>
                 </article>;
